@@ -66,7 +66,7 @@ void cmd_flash(const char *arg, void *data, unsigned sz) {
     }
 
     // TODO: Handle protected partitions properly
-    if (strcmp(arg, "misc") == 0 || 
+    if (strcmp(arg, "boot0") == 0 || 
         strcmp(arg, "boot1") == 0 || 
         strcmp(arg, "boot2") == 0 || 
         strcmp(arg, "preloader") == 0 ||
