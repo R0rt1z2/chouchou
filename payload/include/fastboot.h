@@ -16,3 +16,5 @@ void fastboot_register(const char *prefix,
                        void (*handle)(const char *arg, void *data, unsigned sz),
                        unsigned char security_enabled);
 struct fastboot_cmd *get_fastboot_cmd_list();
+
+int fastboot_is_protected_partition(const char *partition);

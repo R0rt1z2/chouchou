@@ -65,13 +65,7 @@ void cmd_flash(const char *arg, void *data, unsigned sz) {
         return;
     }
 
-    // TODO: Handle protected partitions properly
-    if (strcmp(arg, "boot0") == 0 || 
-        strcmp(arg, "boot1") == 0 || 
-        strcmp(arg, "boot2") == 0 || 
-        strcmp(arg, "preloader") == 0 ||
-        strcmp(arg, "preloader_a") == 0 ||
-        strcmp(arg, "preloader_b") == 0) {
+    if (fastboot_is_protected_partition(arg)) {
         fastboot_fail("Partition is protected");
         return;
     }
@@ -85,13 +79,7 @@ void cmd_erase(const char *arg, void *data, unsigned sz) {
         return;
     }
 
-    // TODO: Handle protected partitions properly
-    if (strcmp(arg, "boot0") == 0 || 
-        strcmp(arg, "boot1") == 0 || 
-        strcmp(arg, "boot2") == 0 || 
-        strcmp(arg, "preloader") == 0 ||
-        strcmp(arg, "preloader_a") == 0 ||
-        strcmp(arg, "preloader_b") == 0) {
+    if (fastboot_is_protected_partition(arg)) {
         fastboot_fail("Partition is protected");
         return;
     }
