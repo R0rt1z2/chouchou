@@ -10,6 +10,10 @@ void original_flash(const char *arg, void *data, unsigned sz) {
     ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436a18 | 1))(arg, data, sz);
 }
 
+void original_erase(const char *arg, void *data, unsigned sz) {
+    ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436695 | 1))(arg, data, sz);
+}
+
 void cmd_hexdump(const char *arg, void *data, unsigned sz) {
     if (!arg || !*arg) {
         fastboot_fail("Usage: hexdump <addr> <size>");
@@ -75,6 +79,26 @@ void cmd_flash(const char *arg, void *data, unsigned sz) {
     original_flash(arg, data, sz);
 }
 
+void cmd_erase(const char *arg, void *data, unsigned sz) {
+    if (!arg || *arg == '\0') {
+        fastboot_fail("Invalid argument!");
+        return;
+    }
+
+    // TODO: Handle protected partitions properly
+    if (strcmp(arg, "boot0") == 0 || 
+        strcmp(arg, "boot1") == 0 || 
+        strcmp(arg, "boot2") == 0 || 
+        strcmp(arg, "preloader") == 0 ||
+        strcmp(arg, "preloader_a") == 0 ||
+        strcmp(arg, "preloader_b") == 0) {
+        fastboot_fail("Partition is protected");
+        return;
+    }
+
+    original_erase(arg, data, sz);
+}
+
 void cmd_flashing_lock(const char *arg, void *data, unsigned sz) {
     fastboot_info("");
     fastboot_info("To lock the bootloader, you need to flash");
@@ -99,6 +123,7 @@ void register_commands() {
     fastboot_register("oem hexdump", cmd_hexdump, 1);
     fastboot_register("oem help", cmd_help, 1);
     fastboot_register("flash:", cmd_flash, 1);
+    fastboot_register("erase:", cmd_erase, 1);
     fastboot_register("flashing lock", cmd_flashing_lock, 1);
 
     LOGD("Successfully registered fastboot commands!\n");
