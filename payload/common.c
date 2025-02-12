@@ -37,4 +37,9 @@ void early_init() {
     x[0] = 0x46c0; // nop
     x[1] = 0x46c0; // nop
     arch_clean_invalidate_cache_range((uint32_t)0x4c42cb72, 2);
+
+    x = (volatile uint16_t *)0x4c42c8f4; // register cmd_erase
+    x[0] = 0x46c0; // nop
+    x[1] = 0x46c0; // nop
+    arch_clean_invalidate_cache_range((uint32_t)0x4c42c8f4, 2);
 }
