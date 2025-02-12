@@ -23,7 +23,6 @@ void cmd_hexdump(const char *arg, void *data, unsigned sz) {
 
     char *a = strtok(args, " ");
     char *s = strtok(NULL, " ");
-    video_printf("parsed\n");
 
     if (a && s) {
         long al = strtol(a, NULL, 0);
