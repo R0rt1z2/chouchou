@@ -4,14 +4,10 @@ import sys
 import struct
 
 base = 0x4c400000
-total_size = 0x200000
 hdr_sz = 0x200
 
-app = 0x4c43a730|1
-dprintf = 0x4c43a730|1
-
-pivot = 0x4c427638
-heap_start = 0x4c5b8710
+pivot = 0x4c427638 # platform_init() caller
+heap_start = 0x4c5b8710 # merely informative
 
 # TODO: Relocate the payload to a better location
 #       (e.g. after the LK code, before the heap)
