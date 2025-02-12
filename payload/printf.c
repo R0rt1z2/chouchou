@@ -3,9 +3,9 @@
 #include <stdarg.h>
 
 void low_uart_put(int ch) {
-    if (ch == '\n') ch = '\r';
-    while (*((volatile uint32_t *)UART_REG0) & 0x20);
-    *((volatile uint32_t *)UART_REG1) = ch;
+    // The SoC sets 0x20 when UART isn't busy
+    while (!(*(volatile uint32_t*)UART_REG0 & 0x20));
+    *(volatile uint32_t*)UART_REG1 = ch;
 }
 
 typedef struct uidiv_result {
