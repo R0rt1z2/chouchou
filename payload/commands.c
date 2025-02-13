@@ -4,7 +4,7 @@
 #include "include/common.h"
 #include "include/commands.h"
 
-#define VERSION "0.1"
+#define VERSION "0.2"
 
 void original_flash(const char *arg, void *data, unsigned sz) {
     ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436a18 | 1))(arg, data, sz);
