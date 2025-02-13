@@ -11,7 +11,7 @@ unsigned int __aeabi_uidiv(unsigned int n, unsigned int d) {
     return q;
 }
 
-void patch_call(uint32_t patch_addr, void (*target_func)(void), jump_type_t type) {
+void patch_call(uint32_t patch_addr, void* target_func, jump_type_t type) {
     uint32_t current_address = patch_addr + 4;
     uint32_t target_address = (uint32_t)target_func & ~1;
     int32_t offset = target_address - current_address;
