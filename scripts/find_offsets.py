@@ -1,5 +1,6 @@
 import re
 import mmap
+import struct
 
 from argparse import ArgumentParser
 
@@ -23,22 +24,16 @@ patterns = {
     'video_printf': ['0f b4 30 b5 c9 b0 4c ab']
 }
 
-def get_load_address(image: str) -> int:
-    '''
-    Gets the load address from the given LK image.
-    :param image: The LK image to get the load address from.
-    :return: The load address.
-    '''
-    image = LkImage(image)
-    partition = (
-        image
-        .get_partition_by_name('lk')
-    )
-    return (
-        partition
-        .header
-        .memory_address
-    )
+def get_load_addr(lk):
+    lk.seek(512)
+    while (data := lk.read(4)) and data != b"\x10\xff\x2f\xe1":
+        if len(data) < 4:
+            return None
+    if not data:
+        return None
+    lk.seek(4, 1)
+    return struct.unpack("<I", lk.read(4))[0] if lk.read(4) else None
+
 
 def p2r(p: str) -> re.Pattern:
     '''
@@ -83,9 +78,13 @@ def main():
     parser.add_argument('lk', help='LK file')
     args = parser.parse_args()
 
-    print("load address: 0x%08x" % base)
     with open(args.lk, 'rb') as fp:
         lk = mmap.mmap(fp.fileno(), 0, access=mmap.ACCESS_READ)
+    
+    base = get_load_addr(lk)
+    if not base:
+        return print("unable to find load address")
+    print("base: 0x%08x" % base)
 
     heap_start = (int.from_bytes(
         lk[0x330:0x334], byteorder='little'))
