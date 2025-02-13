@@ -30,5 +30,5 @@ python3 patch_lk.py <YOUR LK> <PAYLOAD>
 ```
 ### Example:
 ```shell
-python3 patch_lk.py bin/lk.img payload/build/payload.bin
+python3 patch_lk.py bin/UHA34.29-10.img payload/build/payload.bin
 ```
