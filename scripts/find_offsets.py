@@ -33,7 +33,6 @@ def get_load_addr(lk):
             return None
     if not data:
         return None
-    lk.seek(4, 1)
     return struct.unpack('<I', lk.read(4))[0] if lk.read(4) else None
 
 
