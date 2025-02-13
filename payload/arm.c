@@ -11,16 +11,16 @@ unsigned int __aeabi_uidiv(unsigned int n, unsigned int d) {
     return q;
 }
 
-void patch_call(uint32_t patch_addr, void (*target_func)(void)) {
-    uint32_t current_address = patch_addr + 4; // In Thumb, PC is ahead by 4
-    uint32_t target_address = (uint32_t)target_func & ~1; // (LSB cleared for calculation)
+void patch_call(uint32_t patch_addr, void (*target_func)(void), jump_type_t type) {
+    uint32_t current_address = patch_addr + 4;
+    uint32_t target_address = (uint32_t)target_func & ~1;
     int32_t offset = target_address - current_address;
 
     uint16_t high_offset = (offset >> 12) & 0x7FF;
     uint16_t low_offset = (offset >> 1) & 0x7FF;
 
     uint16_t high_instruction = 0xF000 | high_offset;
-    uint16_t low_instruction = 0xF800 | low_offset;
+    uint16_t low_instruction = (type == JUMP_BLX) ? (0xE800 | low_offset) : (0xF800 | low_offset);
 
     volatile uint16_t* ptr = (volatile uint16_t*)patch_addr;
     *ptr = high_instruction;
