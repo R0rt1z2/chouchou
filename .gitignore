@@ -1,7 +1,10 @@
 *.o
 *.img
 *.bin
+*.elf
+*-patched
+
 __pycache__/
 *.py[cod]
 *$py.class
-*.elf
+
