@@ -4,8 +4,6 @@
 #include "include/common.h"
 #include "include/commands.h"
 
-#define VERSION "0.1"
-
 void original_flash(const char *arg, void *data, unsigned sz) {
     ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436a18 | 1))(arg, data, sz);
 }
@@ -101,19 +99,9 @@ void cmd_flashing_lock(const char *arg, void *data, unsigned sz) {
     fastboot_fail(":(");
 }
 
-void cmd_version(const char *arg, void *data, unsigned sz) {
-    char buffer[64];
-    const char *prefix = "ChouChou version: ";
-
-    strcpy(buffer, prefix);
-    strcat(buffer, VERSION);
-
-    fastboot_info(buffer);
-    fastboot_okay("");
-}
-
 void register_commands() {
-    fastboot_register("oem version", cmd_version, 1);
+    fastboot_publish("chouchou-version", VERSION);
+
     fastboot_register("oem hexdump", cmd_hexdump, 1);
     fastboot_register("oem help", cmd_help, 1);
     fastboot_register("flash:", cmd_flash, 1);

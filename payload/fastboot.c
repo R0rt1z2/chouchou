@@ -21,6 +21,10 @@ void fastboot_register(const char *prefix,
     ((void (*)(const char *prefix, void (*handle)(const char *arg, void *data, unsigned sz), unsigned char security_enabled))(0x4c42bdc8 | 1))(prefix, handle, security_enabled);
 }
 
+void fastboot_publish(const char *name, const char *value) {
+    ((void (*)(const char *name, const char *value))(0x4c42be04 | 1))(name, value);
+}
+
 int fastboot_is_protected_partition(const char *partition) {
     // TODO: Handle protected partitions properly
     return (strcmp(partition, "boot0") == 0 || 
