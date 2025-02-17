@@ -24,3 +24,4 @@ long strtol(const char *nptr, char **endptr, int base);
 char *w2ascii(const uint16_t* wstr);
 int wstrcmp(const uint16_t *wstring, const char *string);
 void trim(char *str);
+void int_to_hex_str(uint32_t value, char *out);

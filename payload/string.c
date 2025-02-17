@@ -294,3 +294,16 @@ void trim(char *str) {
         len--;
     }
 }
+
+void int_to_hex_str(uint32_t value, char *out) {
+    static const char hex_chars[] = "0123456789ABCDEF";
+    
+    out[0] = '0';
+    out[1] = 'x';
+
+    for (int i = 0; i < 8; i++) {
+        out[9 - i] = hex_chars[(value >> (i * 4)) & 0xF];
+    }
+    
+    out[10] = '\0';
+}

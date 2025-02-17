@@ -1,3 +1,4 @@
+#include "include/arm.h"
 #include "include/printf.h"
 #include "include/string.h"
 #include "include/fastboot.h"
@@ -100,6 +101,11 @@ void cmd_flashing_lock(const char *arg, void *data, unsigned sz) {
 }
 
 void register_commands() {
+    uint32_t vbar = READ_VBAR() & ~0xFFF;
+    static char membase_str[11];
+    int_to_hex_str(vbar, membase_str);
+
+    fastboot_publish("membase", membase_str);
     fastboot_publish("chouchou-version", VERSION);
 
     fastboot_register("oem hexdump", cmd_hexdump, 1);
