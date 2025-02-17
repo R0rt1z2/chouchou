@@ -2,6 +2,8 @@
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
+#define VERSION "0.1"
+
 /* verified boot state */
 #define BOOT_STATE_GREEN   0x0
 #define BOOT_STATE_YELLOW  0x1

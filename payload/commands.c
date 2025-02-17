@@ -1,10 +1,9 @@
+#include "include/arm.h"
 #include "include/printf.h"
 #include "include/string.h"
 #include "include/fastboot.h"
 #include "include/common.h"
 #include "include/commands.h"
-
-#define VERSION "0.2"
 
 void original_flash(const char *arg, void *data, unsigned sz) {
     ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436a18 | 1))(arg, data, sz);
@@ -46,8 +45,14 @@ void cmd_hexdump(const char *arg, void *data, unsigned sz) {
 }
 
 void cmd_help(const char *arg, void *data, unsigned sz) {
+    struct fastboot_cmd *cmd = NULL;
+
+    if (!cmd) {
+        fastboot_fail("No commands found!");
+        return;
+    }
+
     fastboot_info("\nAvailable oem commands:");
-    struct fastboot_cmd *cmd = get_fastboot_cmd_list();
     while (cmd) {
         if (cmd->prefix) {
             if (strncmp(cmd->prefix, "oem", 3) == 0) {
@@ -95,19 +100,14 @@ void cmd_flashing_lock(const char *arg, void *data, unsigned sz) {
     fastboot_fail(":(");
 }
 
-void cmd_version(const char *arg, void *data, unsigned sz) {
-    char buffer[64];
-    const char *prefix = "ChouChou version: ";
-
-    strcpy(buffer, prefix);
-    strcat(buffer, VERSION);
-
-    fastboot_info(buffer);
-    fastboot_okay("");
-}
-
 void register_commands() {
-    fastboot_register("oem version", cmd_version, 1);
+    uint32_t vbar = READ_VBAR() & ~0xFFF;
+    static char membase_str[11];
+    int_to_hex_str(vbar, membase_str);
+
+    fastboot_publish("membase", membase_str);
+    fastboot_publish("chouchou-version", VERSION);
+
     fastboot_register("oem hexdump", cmd_hexdump, 1);
     fastboot_register("oem help", cmd_help, 1);
     fastboot_register("flash:", cmd_flash, 1);
