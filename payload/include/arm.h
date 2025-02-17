@@ -10,7 +10,12 @@
     (uint32_t)vbar; \
 })
 
+typedef enum {
+    JUMP_BL,
+    JUMP_BLX
+} jump_type_t;
+
 unsigned int __aeabi_uidiv(unsigned int n, unsigned int d);
-void patch_call(uint32_t patch_addr, void (*target_func)(void));
+void patch_call(uint32_t patch_addr, void* target_func, jump_type_t type);
 void arch_clean_invalidate_cache_range(uintptr_t start, uintptr_t size);
 void parse_vector_table();
