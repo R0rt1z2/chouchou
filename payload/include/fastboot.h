@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 struct fastboot_cmd {
     struct fastboot_cmd *next;
     const char *prefix;

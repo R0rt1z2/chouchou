@@ -46,8 +46,14 @@ void cmd_hexdump(const char *arg, void *data, unsigned sz) {
 }
 
 void cmd_help(const char *arg, void *data, unsigned sz) {
+    struct fastboot_cmd *cmd = NULL;
+
+    if (!cmd) {
+        fastboot_fail("No commands found!");
+        return;
+    }
+
     fastboot_info("\nAvailable oem commands:");
-    struct fastboot_cmd *cmd = get_fastboot_cmd_list();
     while (cmd) {
         if (cmd->prefix) {
             if (strncmp(cmd->prefix, "oem", 3) == 0) {

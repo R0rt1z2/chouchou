@@ -1,5 +1,7 @@
+#include "include/arm.h"
 #include "include/fastboot.h"
 #include "string.h"
+#include "include/memory.h"
 
 void fastboot_info(const char *reason) {
     ((void (*)(const char *reason))(0x4c42c178 | 1))(reason);
@@ -30,5 +32,11 @@ int fastboot_is_protected_partition(const char *partition) {
 }
 
 struct fastboot_cmd *get_fastboot_cmd_list() {
-    return (struct fastboot_cmd *)0x4c5b3144;
+    uint32_t vbar = READ_VBAR();
+    uint8_t *start = (uint8_t *)(vbar & ~0xFFF);
+    uint8_t *end = start + 0x200000;
+
+    const uint8_t pattern[] = {0x4C, 0x1B, 0x5F, 0x4C, 0x00};
+    uint8_t *found = FIND_PATTERN(start, end, pattern);
+    return found ? (struct fastboot_cmd *)found : NULL;
 }
