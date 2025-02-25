@@ -1,7 +1,7 @@
 # ChouChou
-Payload for bootloader (lk) modification for Moto G13/G23 phones (penangf)
+Payload for bootloader (lk) modification for Moto G24 phones (fogorow)
 
-[More info](https://penangf.fuckyoumoto.xyz/docs/modding/custom-bootloader)
+[More info](https://fogorow.fuckyoumoto.xyz/docs/modding/custom-bootloader)
 
 ![screenshot.png](screenshot.png)
 

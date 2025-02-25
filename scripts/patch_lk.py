@@ -6,7 +6,7 @@ import sys
 base = 0x4C400000
 hdr_sz = 0x200
 
-pivot = 0x4C427638  # platform_init() caller
+pivot = 0x4c4262a8  # platform_init() caller
 heap_start = 0x4C5B8710  # merely informative
 
 # TODO: Relocate the payload to a better location

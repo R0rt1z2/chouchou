@@ -6,11 +6,11 @@
 #include "include/commands.h"
 
 void original_flash(const char *arg, void *data, unsigned sz) {
-    ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436a18 | 1))(arg, data, sz);
+    ((void (*)(const char *arg, void *data, unsigned sz))(0x4c439728 | 1))(arg, data, sz);
 }
 
 void original_erase(const char *arg, void *data, unsigned sz) {
-    ((void (*)(const char *arg, void *data, unsigned sz))(0x4c436695 | 1))(arg, data, sz);
+    ((void (*)(const char *arg, void *data, unsigned sz))(0x4c439309 | 1))(arg, data, sz);
 }
 
 void cmd_hexdump(const char *arg, void *data, unsigned sz) {

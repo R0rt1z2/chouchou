@@ -17,7 +17,7 @@ void chouchou() {
 __attribute__((section(".text.start"))) int main(void) {
     dprintf("This is chouchou payload by R0rt1z2. Copyright 2025\n");
 
-    patch_call(0x4c428b6c, (void *)chouchou, JUMP_BL);
+    patch_call(0x4c42794c, (void *)chouchou, JUMP_BL);
     early_init();
     platform_init();
 
